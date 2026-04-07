@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como aprovar o planejamento</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;font-family:'DM Sans',sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+.carousel{max-width:420px;width:100%;position:relative}
+.slides{overflow:hidden;border-radius:16px;border:1px solid #EBEBEB;box-shadow:0 4px 24px rgba(0,0,0,0.06)}
+.slide{display:none;background:#FAFAFA;padding:32px 28px 28px;min-height:520px;flex-direction:column}
+.slide.active{display:flex}
+
+.step-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;color:#C4A265;text-transform:uppercase;margin-bottom:16px}
+.step-number{font-family:'DM Sans',sans-serif;font-size:64px;font-weight:700;color:rgba(196,162,101,0.15);line-height:1;margin-bottom:8px}
+.step-title{font-size:20px;font-weight:700;color:#1A1A1A;line-height:1.3;margin-bottom:16px}
+.step-desc{font-size:14px;color:#666;line-height:1.65;margin-bottom:24px}
+
+/* Simulated UI elements */
+.sim-card{background:#fff;border:1px solid #EBEBEB;border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.sim-card-top{display:flex;align-items:center;gap:10px}
+.sim-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sim-dot.gray{background:#C0C0C0;opacity:.35}
+.sim-dot.green{background:#2E7D4F}
+.sim-dot.red{background:#C0392B}
+.sim-date{font-size:12px;font-weight:600;color:#C4A265}
+.sim-title{font-size:11px;color:#1A1A1A;flex:1}
+.sim-badge{font-size:8px;font-weight:700;letter-spacing:.5px;padding:2px 6px;border-radius:3px;text-transform:uppercase;background:#FAFAFA;color:#999;border:1px solid #EBEBEB}
+.sim-arrow{color:#C0C0C0;font-size:14px}
+
+.sim-angulo{margin-top:10px;padding-top:10px;border-top:1px solid #EBEBEB}
+.sim-angulo-label{font-size:8px;font-weight:700;letter-spacing:1.5px;color:#C4A265;text-transform:uppercase;margin-bottom:4px}
+.sim-angulo-text{font-size:11px;color:#999;line-height:1.5}
+
+.sim-approval{display:flex;gap:6px;margin-top:12px}
+.sim-btn{font-size:10px;font-weight:600;padding:5px 12px;border-radius:5px;border:1px solid #EBEBEB;color:#999}
+.sim-btn.approved{background:rgba(46,125,79,.06);color:#2E7D4F;border-color:#2E7D4F}
+.sim-btn.rejected{background:rgba(192,57,43,.06);color:#C0392B;border-color:#C0392B}
+
+.sim-textarea{width:100%;margin-top:8px;padding:8px 10px;font-size:10px;color:#1A1A1A;background:#FAFAFA;border:1px solid #EBEBEB;border-radius:5px;font-family:'DM Sans',sans-serif}
+
+.sim-whatsapp{background:#DCF8C6;border-radius:10px;padding:12px 14px;margin-top:12px;max-width:85%}
+.sim-whatsapp p{font-size:10px;color:#333;line-height:1.5}
+.sim-whatsapp .time{font-size:8px;color:#999;text-align:right;margin-top:4px}
+
+.sim-copy-btn{display:inline-flex;align-items:center;gap:6px;background:#C4A265;color:#1A1A1A;font-size:11px;font-weight:700;padding:10px 20px;border-radius:6px;margin-top:12px}
+.sim-copy-btn.copied{background:#2E7D4F;color:#fff}
+
+.sim-phone{background:#1A1A1A;border-radius:20px;padding:8px;margin-top:12px}
+.sim-phone-screen{background:#fff;border-radius:14px;padding:12px;min-height:160px}
+.sim-phone-header{display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid #eee;margin-bottom:8px}
+.sim-phone-avatar{width:24px;height:24px;border-radius:50%;background:#C4A265;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.sim-phone-name{font-size:11px;font-weight:600;color:#1A1A1A}
+
+/* Navigation */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0 0}
+.nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid #EBEBEB;background:#fff;color:#999;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.nav-btn:hover{border-color:#C4A265;color:#C4A265}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.nav-btn:disabled:hover{border-color:#EBEBEB;color:#999}
+.dots{display:flex;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:#EBEBEB;transition:all .2s}
+.dot.active{background:#C4A265;width:20px;border-radius:4px}
+
+.highlight-ring{animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(196,162,101,0.3)}50%{box-shadow:0 0 0 6px rgba(196,162,101,0)}}
+</style>
+</head>
+<body>
+<div class="carousel">
+<div class="slides">
+
+<!-- STEP 1: Open the link -->
+<div class="slide active">
+<span class="step-badge">Tutorial</span>
+<div class="step-number">01</div>
+<div class="step-title">Abra o link que enviamos</div>
+<div class="step-desc">Você vai ver todos os conteúdos planejados para o mês. Cada card é um post. Clique em qualquer um para expandir.</div>
+<div class="sim-card">
+<div class="sim-card-top">
+<span class="sim-dot gray"></span>
+<span class="sim-date">03/05</span>
+<span class="sim-title">O que a Feito tem que outras lojas não têm</span>
+<span class="sim-badge">Carrossel</span>
+<span class="sim-arrow highlight-ring" style="border-radius:50%;padding:2px 6px">▾</span>
+</div>
+</div>
+<div class="sim-card" style="opacity:.5">
+<div class="sim-card-top">
+<span class="sim-dot gray"></span>
+<span class="sim-date">05/05</span>
+<span class="sim-title">[Produto do mês 1] — Raio-x do produto</span>
+<span class="sim-badge">Feed</span>
+<span class="sim-arrow">▾</span>
+</div>
+</div>
+<div class="sim-card" style="opacity:.3">
+<div class="sim-card-top">
+<span class="sim-dot gray"></span>
+<span class="sim-date">06/05</span>
+<span class="sim-title">Se fôssemos aproveitar o Dia das Mães...</span>
+<span class="sim-badge">Carrossel</span>
+<span class="sim-arrow">▾</span>
+</div>
+</div>
+</div>
+
+<!-- STEP 2: See the angle -->
+<div class="slide">
+<span class="step-badge">Tutorial</span>
+<div class="step-number">02</div>
+<div class="step-title">Veja o ângulo de cada conteúdo</div>
+<div class="step-desc">Ao expandir, você vê a descrição do que será abordado naquele post.</div>
+<div class="sim-card">
+<div class="sim-card-top">
+<span class="sim-dot gray"></span>
+<span class="sim-date">03/05</span>
+<span class="sim-title">O que a Feito tem que outras lojas não têm</span>
+<span class="sim-badge">Carrossel</span>
+<span class="sim-arrow" style="transform:rotate(180deg)">▾</span>
+</div>
+<div class="sim-angulo">
+<div class="sim-angulo-label">Ângulo</div>
+<div class="sim-angulo-text">Mostrar os pontos altos da Feito: atendimento consultivo, curadoria de marcas, +5.000 produtos em catálogo, duas lojas físicas.</div>
+</div>
+</div>
+</div>
+
+<!-- STEP 3: Approve or reject -->
+<div class="slide">
+<span class="step-badge">Tutorial</span>
+<div class="step-number">03</div>
+<div class="step-title">Aprove ou reprove</div>
+<div class="step-desc">Abaixo do ângulo, clique em <strong>Aprovado</strong> ou <strong>Reprovado</strong>. Se reprovar, escreva o que precisa ser ajustado.</div>
+<div class="sim-card">
+<div class="sim-card-top">
+<span class="sim-dot green"></span>
+<span class="sim-date">03/05</span>
+<span class="sim-title">O que a Feito tem que outras lojas não têm</span>
+</div>
+<div class="sim-approval">
+<span class="sim-btn approved">✓ Aprovado</span>
+<span class="sim-btn">✕ Reprovado</span>
+</div>
+</div>
+<div style="height:8px"></div>
+<div class="sim-card">
+<div class="sim-card-top">
+<span class="sim-dot red"></span>
+<span class="sim-date">05/05</span>
+<span class="sim-title">[Produto do mês 1] — Raio-x do produto</span>
+</div>
+<div class="sim-approval">
+<span class="sim-btn">✓ Aprovado</span>
+<span class="sim-btn rejected">✕ Reprovado</span>
+</div>
+<input class="sim-textarea" value="Prefiro focar no produto X ao invés do Y" readonly>
+</div>
+</div>
+
+<!-- STEP 4: Copy feedback -->
+<div class="slide">
+<span class="step-badge">Tutorial</span>
+<div class="step-number">04</div>
+<div class="step-title">Copie o feedback</div>
+<div class="step-desc">Quando terminar todos, clique no botão <strong>Copiar feedback</strong> no final da página. O resumo completo será copiado automaticamente.</div>
+<div style="text-align:center;padding:16px 0">
+<div class="sim-copy-btn highlight-ring">Copiar feedback</div>
+<div style="height:12px"></div>
+<div class="sim-copy-btn copied">✓ Copiado!</div>
+</div>
+</div>
+
+<!-- STEP 5: Paste on WhatsApp -->
+<div class="slide">
+<span class="step-badge">Tutorial</span>
+<div class="step-number">05</div>
+<div class="step-title">Cole no WhatsApp</div>
+<div class="step-desc">Abra a conversa e cole. O feedback chega organizado, post por post, com tudo que você aprovou, reprovou e comentou.</div>
+<div class="sim-phone">
+<div class="sim-phone-screen">
+<div class="sim-phone-header">
+<div class="sim-phone-avatar">S</div>
+<span class="sim-phone-name">Souk</span>
+</div>
+<div class="sim-whatsapp">
+<p><strong>FEEDBACK — PLANEJAMENTO MAIO 2026</strong></p>
+<p style="margin-top:6px">03/05 | Carrossel<br>O que a Feito tem que outras lojas não têm<br>Status: ✅ Aprovado</p>
+<p style="margin-top:6px">05/05 | Feed<br>[Produto do mês 1]<br>Status: ❌ Reprovado<br>Comentário: Prefiro focar no produto X</p>
+<p style="margin-top:8px"><strong>RESUMO: 1 aprovado | 1 reprovado</strong></p>
+<div class="time">14:32 ✓✓</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+<button class="nav-btn" id="prev" onclick="go(-1)" disabled>‹</button>
+<div class="dots" id="dots"></div>
+<button class="nav-btn" id="next" onclick="go(1)">›</button>
+</div>
+</div>
+
+<script>
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+const dotsC=document.getElementById('dots');
+for(let i=0;i<total;i++){const d=document.createElement('div');d.className='dot'+(i===0?' active':'');dotsC.appendChild(d)}
+function go(dir){
+cur+=dir;
+if(cur<0)cur=0;
+if(cur>=total)cur=total-1;
+slides.forEach((s,i)=>s.classList.toggle('active',i===cur));
+document.querySelectorAll('.dot').forEach((d,i)=>{d.className='dot'+(i===cur?' active':'')});
+document.getElementById('prev').disabled=cur===0;
+document.getElementById('next').disabled=cur===total-1;
+}
+</script>
+</body>
+</html>
