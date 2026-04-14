@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caio Sidão — Planejamento de Conteúdo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C4A265;--gold-light:#D4B87A;--gold-dim:rgba(196,162,101,.08);--black:#1A1A1A;--white:#fff;--bg:#FAFAFA;--gray:#999;--gray-light:#C0C0C0;--gray-text:#666;--border:#EBEBEB;--green:#2E7D4F;--green-bg:rgba(46,125,79,.06);--red:#C0392B;--red-bg:rgba(192,57,43,.06)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+.header{padding:56px 0 36px;border-bottom:2px solid var(--gold)}
+.header-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+.header h1{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:var(--black);line-height:1.1}
+.header h1 span{color:var(--gold)}
+.header-sub{font-size:15px;color:var(--gray-text);margin-top:8px}
+.intro{padding:32px 0;border-bottom:1px solid var(--border)}
+.intro p{font-size:14px;line-height:1.7;color:var(--gray-text);max-width:680px}
+.intro strong{color:var(--black);font-weight:600}
+.stats{display:flex;gap:1px;margin:28px 0 0;background:var(--border);border-radius:10px;overflow:hidden}
+.stat{flex:1;background:var(--white);padding:18px 14px;text-align:center}
+.stat-number{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold)}
+.stat-label{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.section{padding:36px 0 16px}
+.section-header{margin-bottom:20px}
+.section-label{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--gold);background:var(--gold-dim);padding:5px 14px;border-radius:20px}
+.post{background:var(--white);border-radius:10px;margin-bottom:10px;border:1px solid var(--border);transition:all .2s}
+.post:hover{border-color:rgba(196,162,101,.4)}
+.post-top{display:flex;align-items:center;padding:14px 18px;cursor:pointer;gap:12px}
+.post-left{display:flex;align-items:center;gap:14px;flex:1;min-width:0}
+.post-num{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--gold);min-width:28px;flex-shrink:0}
+.post-title{font-size:13px;font-weight:500;color:var(--black);line-height:1.4;flex:1}
+.post-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.badge{font-size:9px;font-weight:700;letter-spacing:.8px;padding:3px 8px;border-radius:3px;text-transform:uppercase;white-space:nowrap;background:var(--bg);color:var(--gray-text);border:1px solid var(--border)}
+.badge-etapa{font-size:8px;font-weight:700;letter-spacing:1px;padding:3px 7px;border-radius:3px;text-transform:uppercase;white-space:nowrap}
+.badge-topo{background:rgba(46,125,79,.06);color:#2E7D4F;border:1px solid rgba(46,125,79,.15)}
+.badge-meio{background:rgba(196,162,101,.08);color:#C4A265;border:1px solid rgba(196,162,101,.2)}
+.badge-fundo{background:rgba(192,57,43,.06);color:#C0392B;border:1px solid rgba(192,57,43,.15)}
+.badge-trend{background:rgba(100,100,200,.06);color:#5555AA;border:1px solid rgba(100,100,200,.15)}
+.post-expand{color:var(--gray-light);font-size:16px;cursor:pointer;transition:transform .2s;user-select:none}
+.post-expand.open{transform:rotate(180deg)}
+.post-details{display:none;padding:0 18px 16px}
+.post-details.show{display:block}
+.detail-angulo{font-size:13px;color:var(--gray-text);line-height:1.65;padding:12px 0;border-top:1px solid var(--border)}
+.detail-angulo-label{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.approval{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.approval-btns{display:flex;gap:8px}
+.approval-btn{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.5px;padding:7px 16px;border-radius:6px;border:1px solid var(--border);background:var(--white);color:var(--gray-text);cursor:pointer;transition:all .15s}
+.approval-btn:hover{border-color:var(--gray-light)}
+.approval-btn.active-approved{background:var(--green-bg);color:var(--green);border-color:var(--green)}
+.approval-btn.active-rejected{background:var(--red-bg);color:var(--red);border-color:var(--red)}
+.rejection-reason{display:none;margin-top:10px}
+.rejection-reason.show{display:block}
+.rejection-reason textarea{width:100%;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--black);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;resize:vertical;min-height:60px;outline:none;transition:border-color .2s}
+.rejection-reason textarea:focus{border-color:var(--gold)}
+.rejection-reason textarea::placeholder{color:var(--gray-light)}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.approved{background:var(--green)}
+.status-dot.rejected{background:var(--red)}
+.status-dot.pending{background:var(--gray-light);opacity:.35}
+.footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center;margin-top:20px}
+.footer span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray)}
+.footer span strong{color:var(--gold);font-weight:600}
+@media(max-width:640px){.header h1{font-size:30px}.stats{flex-direction:column}.post-top{flex-direction:column;align-items:flex-start;gap:8px}.post-right{margin-left:0;flex-wrap:wrap}.post-left{flex-direction:column;align-items:flex-start;gap:4px}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<div class="header-badge">Souk</div>
+<h1>Planejamento de Conteúdo <span>Caio Sidão</span></h1>
+<div class="header-sub">Ecossistema Magnético · 28 posts</div>
+</div>
+<div class="intro">
+<p>Distribuição estratégica: <strong>40% topo</strong> (atração e quebra de crença), <strong>35% meio</strong> (método, cases e comparativos), <strong>15% fundo</strong> (conversão direta) e <strong>10% trend</strong> (alcance). O conteúdo posiciona o Ecossistema Magnético como alternativa ao modelo de lançamento.</p>
+<div class="stats">
+<div class="stat"><div class="stat-number">10</div><div class="stat-label">Topo</div></div>
+<div class="stat"><div class="stat-number">11</div><div class="stat-label">Meio</div></div>
+<div class="stat"><div class="stat-number">4</div><div class="stat-label">Fundo</div></div>
+<div class="stat"><div class="stat-number">3</div><div class="stat-label">Trend</div></div>
+</div>
+</div>
+<div id="content"></div>
+<div style="padding:48px 0 20px;text-align:center">
+<button id="feedbackBtn" onclick="enviarFeedback()" style="display:inline-flex;align-items:center;gap:10px;background:#C4A265;color:#1A1A1A;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;padding:16px 36px;border:none;border-radius:8px;cursor:pointer;transition:all .2s">Copiar feedback</button>
+<div id="feedbackMsg" style="font-size:12px;color:#999;margin-top:12px">Ao clicar, o resumo das suas aprovações e comentários será copiado</div>
+</div>
+<div class="footer"><span><strong>Souk</strong></span></div>
+</div>
+<script>
+const S=[
+{label:"Topo de Funil",etapa:"topo",posts:[
+{n:1,t:"5 sinais de que o seu negócio digital está te consumindo (e como sair disso)",f:"Carrossel",a:"Quem vende no digital vai se reconhecer nos sintomas. A ideia é gerar identificação imediata com a dor de quem trabalha mais do que deveria e não vê resultado proporcional."},
+{n:2,t:"O mito do lançamento milionário que você precisa parar de acreditar agora",f:"Vídeo",a:"Desmonta a crença de que lançamento é o único caminho viável. Abre espaço pra apresentar o conceito de ecossistema nos próximos conteúdos."},
+{n:3,t:"Eu só comecei a vender todo dia quando parei de lançar",f:"Carrossel",a:"Storytelling pessoal do Caio contando a virada: o momento em que largou o modelo de lançamento e montou algo que vendia sem depender de evento."},
+{n:4,t:"Ninguém se importa com o seu produto digital",f:"Vídeo",a:"A ideia é provocar o público, usando da polêmica para gerar debate e, principalmente, engajamento."},
+{n:5,t:"3 verdades duras sobre viver de lançamento que você precisa enfrentar",f:"Carrossel",a:"Conteúdo com peso de quem viveu 11 anos nos bastidores. Entrega verdades que o mercado não costuma falar sobre a rotina de quem depende de lançamento."},
+{n:6,t:"O grande erro que quem fatura entre R$10k e R$50k no digital comete",f:"Carrossel comparativo",a:"Fala direto com quem fatura nessa faixa e ainda não tem estrutura de vendas contínua. Funciona como filtro natural do ICP."},
+{n:7,t:"Tentar escalar no digital sem ecossistema só vai te dar dor de cabeça, e eu vou te mostrar o porquê.",f:"Vídeo",a:"Confronto direto com a dor do ICP. Valida a frustração de quem já tentou escalar e só encontrou mais trabalho e mais estresse."},
+{n:8,t:"O que 11 anos nos bastidores do digital me ensinaram sobre vender",f:"Carrossel",a:"Usa a credencial do Caio pra entregar aprendizados reais. Posiciona a experiência como diferencial."},
+{n:9,t:"Esqueça tudo que você sabe sobre funil de vendas",f:"Carrossel",a:"Provoca um reset na cabeça do público. Prepara o terreno pra introduzir o conceito de ecossistema como algo diferente do funil convencional."},
+{n:10,t:"É por isso que o modelo de lançamento não funciona mais para a maioria dos infoprodutores",f:"Vídeo",a:"Conteúdo educativo que contextualiza por que o lançamento perdeu eficiência pra maioria. Justifica a mudança de modelo com argumentos práticos."},
+]},
+{label:"Meio de Funil",etapa:"meio",posts:[
+{n:11,t:"Como eu transformei bastidores de lançamentos milionários em um método que vende todos os dias",f:"Carrossel",a:"Storytelling de origem do Ecossistema Magnético. Conta como o Caio saiu dos bastidores do lançamento e criou um método próprio de vendas contínuas."},
+{n:12,t:"O [player de lançamento] fatura com lançamentos de 7 dígitos. Eu faturo com um ecossistema que roda sozinho.",f:"Carrossel comparativo",a:"Carrossel comparativo lado a lado, conforme referência enviada no grupo."},
+{n:13,t:"5 decisões simples que mudaram meu negócio digital de R$0 a 8 dígitos",f:"Carrossel",a:"Mostra as escolhas concretas que fizeram diferença na trajetória do Caio. Funciona como prova social indireta e como framework que o público pode aplicar."},
+{n:14,t:"A estratégia que faz meus clientes venderem todos os dias sem live, sem CPL, sem aquecimento",f:"Vídeo",a:"Revela a lógica do método sem entregar tudo. Reforça o diferencial: vender sem precisar de live, sem CPL e sem semana de aquecimento."},
+{n:15,t:"7 coisas que eu gostaria de saber antes de gastar R$500k em lançamentos",f:"Carrossel",a:"Vulnerabilidade estratégica. O Caio abre o jogo sobre o que errou e o que aprendeu, gerando identificação com quem já investiu pesado e não viu retorno proporcional."},
+{n:16,t:"O segredo que me fez sair da roda do lançamento em menos de um ano",f:"Vídeo",a:"Gera curiosidade com um resultado concreto e temporal. Puxa naturalmente pra oferta do Caio."},
+{n:17,t:"Meu caminho inusitado de coprodutor de lançamentos a arquiteto de ecossistemas",f:"Carrossel",a:"Narrativa de transição profissional do Caio. Humaniza e gera conexão com quem também quer mudar de modelo."},
+{n:18,t:"Como esse ecossistema transformou o negócio do Diego (e pode transformar o seu)",f:"Vídeo",a:"Case real com nome e resultado. O Diego é o case mais alinhado ao método atual, conforme o diagnóstico. Prova social concreta."},
+{n:19,t:"Evite esses 4 erros antes de montar qualquer funil perpétuo",f:"Carrossel",a:"Conteúdo técnico acessível. Mostra erros comuns que o público do Caio comete ao tentar montar um funil, posicionando ele como quem já viu isso acontecer centenas de vezes."},
+{n:20,t:"Eu só preciso de 1 minuto para te convencer que o seu negócio só precisa de um ecossistema para vender todos os dias",f:"Vídeo",a:"O Caio explica em 1 minuto a lógica do ecossistema de forma simples, reduzindo a barreira de compreensão do método."},
+{n:21,t:"Por que eu escolho ecossistema mesmo quando todo mundo ainda aposta em lançamento",f:"Carrossel",a:"Posicionamento de convicção. Mostra que a escolha pelo ecossistema não é tendência, é decisão estratégica fundamentada em resultado."},
+]},
+{label:"Fundo de Funil",etapa:"fundo",posts:[
+{n:22,t:"Foi assim que ela vendeu 6 dígitos sem fazer um único lançamento",f:"Carrossel",a:"Case de resultado direto. Conta a história de uma cliente que atingiu 6 dígitos usando o método do Caio. Fecha com convite pra sessão estratégica."},
+{n:23,t:"Eu não vendo pra quem acha que o digital é fórmula mágica",f:"Vídeo",a:"Filtra o público de forma intencional. Valoriza a oferta ao deixar claro pra quem é e pra quem não é. CTA para sessão estratégica."},
+{n:24,t:"Se eu tivesse um negócio digital travado e R$30k pra investir, a primeira coisa que eu faria era uma sessão estratégica. Te explico o porquê.",f:"Carrossel",a:"Simulação estratégica que vende sem vender. O Caio mostra exatamente o que faria nessa situação, e a resposta natural é o próprio método dele. Fecha com convite pra sessão estratégica."},
+{n:25,t:"Uma sessão estratégica mudou o negócio dele. Pode mudar o seu também.",f:"Vídeo",a:"O Caio conta o que acontece dentro de uma sessão estratégica e o impacto real que ela gera. Fecha com convite direto pra quem quer a mesma coisa."},
+]},
+{label:"Trend",etapa:"trend",posts:[
+{n:26,t:"[Reservado para trend — adaptar formato do momento]",f:"A definir",a:"Acompanhar trends da semana e adaptar ao universo ecossistema/digital."},
+{n:27,t:"[Reservado para trend — adaptar formato do momento]",f:"A definir",a:"Acompanhar trends da semana e adaptar ao universo ecossistema/digital."},
+{n:28,t:"[Reservado para trend — adaptar formato do momento]",f:"A definir",a:"Acompanhar trends da semana e adaptar ao universo ecossistema/digital."},
+]}
+];
+
+const badgeClass={topo:"badge-topo",meio:"badge-meio",fundo:"badge-fundo",trend:"badge-trend"};
+const badgeLabel={topo:"Topo",meio:"Meio",fundo:"Fundo",trend:"Trend"};
+
+const c=document.getElementById('content');
+S.forEach((s,si)=>{
+let h=`<div class="section"><div class="section-header"><span class="section-label">${s.label}</span></div>`;
+s.posts.forEach((p,pi)=>{
+const id=`p${si}${pi}`;
+h+=`<div class="post"><div class="post-top" onclick="tog('${id}')"><div class="post-left"><span class="status-dot pending" id="dot-${id}"></span><span class="post-num">${String(p.n).padStart(2,'0')}</span><span class="post-title">${p.t}</span></div><div class="post-right"><span class="badge-etapa ${badgeClass[s.etapa]}">${badgeLabel[s.etapa]}</span><span class="badge">${p.f}</span><span class="post-expand" id="arr-${id}">▾</span></div></div><div class="post-details" id="${id}"><div class="detail-angulo"><div class="detail-angulo-label">Ângulo</div><div style="padding-bottom:2px">${p.a}</div></div><div class="approval"><div class="approval-btns"><button class="approval-btn" onclick="ap('${id}',event)">✓ Aprovado</button><button class="approval-btn" onclick="rj('${id}',event)">✕ Reprovado</button></div><div class="rejection-reason" id="r-${id}"><textarea placeholder="O que precisa ser ajustado nesse conteúdo?"></textarea></div></div></div></div>`;
+});
+h+=`</div>`;
+c.innerHTML+=h;
+});
+
+const status={};
+function tog(id){document.getElementById(id).classList.toggle('show');document.getElementById('arr-'+id).classList.toggle('open')}
+function ap(id,e){e.stopPropagation();const b=e.target.parentElement.querySelectorAll('.approval-btn');b[0].className='approval-btn active-approved';b[1].className='approval-btn';document.getElementById('r-'+id).classList.remove('show');document.getElementById('dot-'+id).className='status-dot approved';status[id]={s:'aprovado',r:''}}
+function rj(id,e){e.stopPropagation();const b=e.target.parentElement.querySelectorAll('.approval-btn');b[0].className='approval-btn';b[1].className='approval-btn active-rejected';document.getElementById('r-'+id).classList.add('show');document.getElementById('r-'+id).querySelector('textarea').focus();document.getElementById('dot-'+id).className='status-dot rejected';status[id]={s:'reprovado',r:''}}
+document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA'){const id=e.target.closest('.post-details').id;if(status[id])status[id].r=e.target.value}});
+
+function enviarFeedback(){
+let lines=[];
+lines.push("FEEDBACK — PLANEJAMENTO CAIO SIDÃO — ECOSSISTEMA MAGNÉTICO");
+lines.push("");
+let count={a:0,r:0,p:0};
+S.forEach((s,si)=>{
+lines.push(s.label.toUpperCase());
+s.posts.forEach((p,pi)=>{
+const id="p"+si+pi;
+const st=status[id];
+let sl="⏳ Pendente";
+if(st&&st.s==="aprovado"){sl="✅ Aprovado";count.a++}
+else if(st&&st.s==="reprovado"){sl="❌ Reprovado";count.r++}
+else{count.p++}
+lines.push("");
+lines.push("#"+p.n+" | "+p.f);
+lines.push(p.t);
+lines.push("Status: "+sl);
+if(st&&st.s==="reprovado"&&st.r){lines.push("Comentário: "+st.r)}
+});
+lines.push("");
+lines.push("————————————————");
+lines.push("");
+});
+lines.push("RESUMO: "+count.a+" aprovados | "+count.r+" reprovados | "+count.p+" pendentes");
+const text=lines.join("\n");
+navigator.clipboard.writeText(text).then(()=>{
+const btn=document.getElementById("feedbackBtn");
+const msg=document.getElementById("feedbackMsg");
+btn.textContent="✓ Copiado!";
+btn.style.background="#2E7D4F";
+btn.style.color="#fff";
+msg.textContent="Cole no WhatsApp, e-mail ou onde preferir.";
+msg.style.color="#2E7D4F";
+setTimeout(()=>{btn.textContent="Copiar feedback";btn.style.background="#C4A265";btn.style.color="#1A1A1A";msg.textContent="Ao clicar, o resumo das suas aprovações e comentários será copiado";msg.style.color="#999"},3000);
+}).catch(()=>{
+const ta=document.createElement("textarea");
+ta.value=text;
+document.body.appendChild(ta);
+ta.select();
+document.execCommand("copy");
+document.body.removeChild(ta);
+const btn=document.getElementById("feedbackBtn");
+btn.textContent="✓ Copiado!";
+btn.style.background="#2E7D4F";
+btn.style.color="#fff";
+setTimeout(()=>{btn.textContent="Copiar feedback";btn.style.background="#C4A265";btn.style.color="#1A1A1A"},3000);
+});
+}
+</script>
+</body>
+</html>
